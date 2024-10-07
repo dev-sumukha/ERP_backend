@@ -1,0 +1,27 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "This is a serv",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "express",
+    "nodejs",
+    "mongoose",
+    "mongodb",
+    "mailtrap"
+  ],
+  "author": "ERP Developers",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "mailtrap": "^3.4.0",
+    "mongoose": "^8.7.0",
+    "node-jose": "^2.2.0",
+    "nodemailer": "^6.9.15"
+  }
+}
