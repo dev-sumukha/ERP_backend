@@ -52,4 +52,25 @@ const studentSchema = new mongoose.Schema(
     }
 );
 
+studentSchema.pre("save", async function(next){
+    if(!this.isModified("password")){
+        return next();
+    }
+
+    this.password = bcrypt.hash(this.password,10);
+    next();
+});
+
+studentSchema.methods.isPasswordCorrect = async function(password) {
+    return await bcrypt.compare(password,this.password);
+}
+
+studentSchema.methods.generateAccessToken = function() {
+    jwt.sign({_id: this._id})
+}
+
+studentSchema.methods.generateRefreshToken = function() {
+    
+}
+
 export const Student = mongoose.model("Student",studentSchema);

@@ -48,4 +48,25 @@ const teacherSchema = new mongoose.Schema(
     }
 );
 
+teacherSchema.pre("save", async function(next){
+    if(!this.isModified("password")){
+        return next();
+    }
+
+    this.password = bcrypt.hash(this.password,10);
+    next();
+});
+
+teacherSchema.methods.isPasswordCorrect = async function(password) {
+    return await bcrypt.compare(password,this.password);
+}
+
+teacherSchema.methods.generateAccessToken = function() {
+    jwt.sign({_id: this._id})
+}
+
+teacherSchema.methods.generateRefreshToken = function() {
+    
+}
+
 export const Teacher = mongoose.model("Teacher",teacherSchema);
