@@ -15,8 +15,8 @@ const collegeSchema = new mongoose.Schema(
             maxlength: 5
         },
         departments:[{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Department"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Department"
         }],
         collegeAdmin:{
             type: mongoose.Schema.Types.ObjectId,

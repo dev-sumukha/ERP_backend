@@ -23,6 +23,9 @@ const studentSchema = new mongoose.Schema(
             trim: true,
             unique: true
         },
+        password:{
+            type: String
+        },
         dateOfBirth:{
             type: Date,
             required: true
@@ -48,6 +51,10 @@ const studentSchema = new mongoose.Schema(
         department:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Department"
+        },
+        section:{
+            type: mongoose.Types.Schema.ObjectId,
+            ref: "Section"
         }
     }
 );
@@ -66,11 +73,11 @@ studentSchema.methods.isPasswordCorrect = async function(password) {
 }
 
 studentSchema.methods.generateAccessToken = function() {
-    jwt.sign({_id: this._id})
+    return jwt.sign({_id: this._id},process.env.ACCESS_TOKEN_SECRET,{expiresIn: process.env.ACCESS_TOKEN_EXPIRY});
 }
 
 studentSchema.methods.generateRefreshToken = function() {
-    
+    return jwt.sign({_id: this._id},process.env.REFRESH_TOKEN_SECRET,{expiresIn: process.env.REFRESH_TOKEN_EXPIRY});
 }
 
 export const Student = mongoose.model("Student",studentSchema);

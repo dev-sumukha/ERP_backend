@@ -7,6 +7,10 @@ const departmentSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
+        departmentHOD:{ 
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Teacher"
+        },
         departmentCode:{
             type: String,
             required: true,

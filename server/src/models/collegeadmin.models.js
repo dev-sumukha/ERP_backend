@@ -23,7 +23,7 @@ const collegeAdminSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-            unique: true
+            unique: true,
         },
         password:{
             type: String,
@@ -48,6 +48,7 @@ collegeAdminSchema.pre("save", async function(next){
         return next();
     }
 
+
     this.password = bcrypt.hash(this.password,10);
     next();
 });
@@ -57,11 +58,11 @@ collegeAdminSchema.methods.isPasswordCorrect = async function(password) {
 }
 
 collegeAdminSchema.methods.generateAccessToken = function() {
-    jwt.sign({_id: this._id})
+    return jwt.sign({_id: this._id},process.env.ACCESS_TOKEN_SECRET,{expiresIn: process.env.ACCESS_TOKEN_EXPIRY});
 }
 
 collegeAdminSchema.methods.generateRefreshToken = function() {
-    
+    return jwt.sign({_id: this._id},process.env.REFRESH_TOKEN_SECRET,{expiresIn: process.env.REFRESH_TOKEN_EXPIRY});
 }
 
 export const CollegeAdmin = mongoose.model("CollegeAdmin",collegeAdminSchema);

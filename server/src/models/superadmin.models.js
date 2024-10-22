@@ -65,11 +65,11 @@ superAdminSchema.methods.isPasswordCorrect = async function(password) {
 }
 
 superAdminSchema.methods.generateAccessToken = function() {
-    jwt.sign({_id: this._id})
+    return jwt.sign({_id: this._id},process.env.ACCESS_TOKEN_SECRET,{expiresIn: process.env.ACCESS_TOKEN_EXPIRY});
 }
 
 superAdminSchema.methods.generateRefreshToken = function() {
-    
+    return jwt.sign({_id: this._id},process.env.REFRESH_TOKEN_SECRET,{expiresIn: process.env.REFRESH_TOKEN_EXPIRY});
 }
 
 export const SuperAdmin = mongoose.model("SuperAdmin",superAdminSchema);

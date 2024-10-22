@@ -24,6 +24,10 @@ const teacherSchema = new mongoose.Schema(
             type:String,
             required: true
         },
+        section:{
+            type: [String],
+            default: undefined
+        },
         aadharNumber:{
             type: Number,
             required: true,
@@ -41,7 +45,15 @@ const teacherSchema = new mongoose.Schema(
         department:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Department"
-        }
+        },
+        subjects:{
+            type: [String],
+            required: true
+        },
+        section:[{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Section"
+        }]
     },
     {
         timestamps: true
@@ -62,11 +74,11 @@ teacherSchema.methods.isPasswordCorrect = async function(password) {
 }
 
 teacherSchema.methods.generateAccessToken = function() {
-    jwt.sign({_id: this._id})
+    return jwt.sign({_id: this._id},process.env.ACCESS_TOKEN_SECRET,{expiresIn: process.env.ACCESS_TOKEN_EXPIRY});
 }
 
 teacherSchema.methods.generateRefreshToken = function() {
-    
+    return jwt.sign({_id: this._id},process.env.REFRESH_TOKEN_SECRET,{expiresIn: process.env.REFRESH_TOKEN_EXPIRY});
 }
 
 export const Teacher = mongoose.model("Teacher",teacherSchema);
