@@ -9,6 +9,10 @@ const sectionSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
+        department:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Department"
+        },
         students:[{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Student"
